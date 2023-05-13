@@ -1,0 +1,388 @@
+openapi: 3.0.3
+info:
+  title: City info project
+  version: 0.0.1
+  description: Documentation of API endpoints of City info
+paths:
+  /api/places/:
+    get:
+      operationId: api_places_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+          description: ''
+    post:
+      operationId: api_places_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Place'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Place'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+          description: ''
+  /api/places/{id}/:
+    get:
+      operationId: api_places_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Заведение.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+          description: ''
+    put:
+      operationId: api_places_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Заведение.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Place'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Place'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+          description: ''
+    patch:
+      operationId: api_places_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Заведение.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPlace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPlace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPlace'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Place'
+          description: ''
+  /api/places/adress/:
+    get:
+      operationId: api_places_adress_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+          description: ''
+  /api/places/category/{category_id}:
+    get:
+      operationId: api_places_category_list
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+          description: ''
+  /api/places/city/{city_id}:
+    get:
+      operationId: api_places_city_list
+      parameters:
+      - in: path
+        name: city_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+          description: ''
+  /api/places/title/:
+    get:
+      operationId: api_places_title_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+          description: ''
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Категория
+          maxLength: 250
+      required:
+      - id
+      - title
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название города
+          maxLength: 50
+      required:
+      - id
+      - title
+    Contact:
+      type: object
+      properties:
+        phone:
+          type: string
+          title: Номер телефона
+          maxLength: 12
+        additionalPhone:
+          type: string
+          nullable: true
+          title: Дополнительный номер телефона
+          maxLength: 12
+        work_routine:
+          type: string
+          title: График работы
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          title: Почта
+          maxLength: 50
+        image:
+          type: string
+          format: uri
+        custom_field:
+          type: string
+          readOnly: true
+      required:
+      - custom_field
+      - email
+      - image
+      - phone
+      - work_routine
+    PatchedPlace:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+        phone:
+          type: string
+        additionalPhone:
+          type: string
+        work_routine:
+          type: string
+        image:
+          type: string
+        contact:
+          $ref: '#/components/schemas/Contact'
+        category:
+          $ref: '#/components/schemas/Category'
+        city:
+          $ref: '#/components/schemas/City'
+        title:
+          type: string
+          title: Название заведения
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+          title: Описание заведения
+        adress:
+          type: string
+          title: Адресс заведения
+          maxLength: 250
+    Place:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+        phone:
+          type: string
+        additionalPhone:
+          type: string
+        work_routine:
+          type: string
+        image:
+          type: string
+        contact:
+          $ref: '#/components/schemas/Contact'
+        category:
+          $ref: '#/components/schemas/Category'
+        city:
+          $ref: '#/components/schemas/City'
+        title:
+          type: string
+          title: Название заведения
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+          title: Описание заведения
+        adress:
+          type: string
+          title: Адресс заведения
+          maxLength: 250
+      required:
+      - additionalPhone
+      - adress
+      - category
+      - city
+      - contact
+      - email
+      - id
+      - image
+      - phone
+      - title
+      - work_routine
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
+servers:
+- url: http://127.0.0.1:8000
+  description: Local server

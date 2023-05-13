@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3rd party apps
     'rest_framework',
+    'drf_spectacular',
 
+    # local apps
     'cityApp',
 ]
 
@@ -52,6 +55,46 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+        ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "City info project",
+    "DESCRIPTION": "Documentation of API endpoints of City info",
+    "VERSION": "0.0.1",
+    "SERVE_PERMISSIONS": [
+        "rest_framework.permissions.AllowAny",
+    ],
+
+    "SERVERS": [
+        {"url": "http://127.0.0.1:8000", "description": "Local server"},
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayOperationId": True,
+    },
+    "APPEND_COMPONENTS": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    },
+    "SECURITY": [{"ApiKeyAuth": [], }],
+    "SCHEMA_PATH_PREFIX": r'/api/v[0-9]',
+}
 
 ROOT_URLCONF = 'cityProject.urls'
 
